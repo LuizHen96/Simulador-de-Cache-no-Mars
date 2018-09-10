@@ -3,12 +3,12 @@ package mars.cache;
 public class Set {
 	private Block[] set;
 	
-	public Set(int nBlocos, int nPalavras)
+	public Set(int nBlocks, int nWords)
 	{
-		set = new Block[nBlocos];
-		for(int i=0; i<nBlocos; i++)
+		set = new Block[nBlocks];
+		for(int i=0; i<nBlocks; i++)
 		{
-			set[i] = new Block(nPalavras);
+			set[i] = new Block(nWords);
 		}
 		
 	}

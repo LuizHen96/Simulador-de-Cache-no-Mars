@@ -4,10 +4,10 @@ public class Block {
 	private boolean validate;
 	private Word[] blocks;
 	
-	public Block(int nPalavras)
+	public Block(int nWords)
 	{
 		validate = false;
-		blocks = new Word[nPalavras];
+		blocks = new Word[nWords];
 	}
 	
 	public Word[] getBlocks()
