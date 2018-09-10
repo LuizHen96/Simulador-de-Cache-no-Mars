@@ -1,11 +1,13 @@
 package mars.cache;
 
 public class Block {
+	private boolean validate;
 	private Word[] blocks;
 	
-	public Block(int x)
+	public Block(int nPalavras)
 	{
-		blocks = new Word[x];
+		validate = false;
+		blocks = new Word[nPalavras];
 	}
 	
 	public Word[] getBlocks()
@@ -13,6 +15,9 @@ public class Block {
 		return blocks;
 	}
 	
-	
+	public boolean getValidate()
+	{
+		return validate;
+	}
 	
 }
