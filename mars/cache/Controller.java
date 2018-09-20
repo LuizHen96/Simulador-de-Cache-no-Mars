@@ -10,24 +10,28 @@ public class Controller {
 	private int tempoAcessoCache;
 	private int tempoAcessoMemoria;
 	
+	private Cache cache;
+	private Address address;
 	
-	public Controller(String tipoCache, String mapeamento, String politicaSubstituicao, int blocosConjunto, int nBlocos,
-			int nPalavrasBloco, int tempoAcessoCache, int tempoAcessoMemoria) {
-		super();
-		this.tipoCache = tipoCache;
-		this.mapeamento = mapeamento;
-		this.politicaSubstituicao = politicaSubstituicao;
-		this.blocosConjunto = blocosConjunto;
-		this.nBlocos = nBlocos;
-		this.nPalavrasBloco = nPalavrasBloco;
-		this.tempoAcessoCache = tempoAcessoCache;
-		this.tempoAcessoMemoria = tempoAcessoMemoria;
+	
+	
+	
+	
+	public Controller() {
+		this.address = new Address(0,0,0,0);
 	}
 	
 	
 	
 	public void setController(String tipoCache, String mapeamento, String politicaSubstituicao, int blocosConjunto, int nBlocos,
-			int nPalavrasBloco, int tempoAcessoCache, int tempoAcessoMemoria) {
+		int nPalavrasBloco, int tempoAcessoCache, int tempoAcessoMemoria) {
+		int tag, index, blockOffset, byteOffset;
+		index = (int) (Math.log(nBlocos/blocosConjunto)/Math.log(2));
+		blockOffset = (int) (Math.log(nPalavrasBloco)/Math.log(2));
+		byteOffset = 0;
+		tag = 32 - index - blockOffset - byteOffset;
+		
+		
 		this.tipoCache = tipoCache;
 		this.mapeamento = mapeamento;
 		this.politicaSubstituicao = politicaSubstituicao;
@@ -36,6 +40,9 @@ public class Controller {
 		this.nPalavrasBloco = nPalavrasBloco;
 		this.tempoAcessoCache = tempoAcessoCache;
 		this.tempoAcessoMemoria = tempoAcessoMemoria;
+		
+		this.address = new Address(tag, index, blockOffset, byteOffset);
+		
 	}
 	
 	
@@ -81,6 +88,10 @@ public class Controller {
 		return tempoAcessoMemoria;
 	}
 	
+	public Address getAddress()
+	{
+		return address;
+	}
 	
 	
 	
