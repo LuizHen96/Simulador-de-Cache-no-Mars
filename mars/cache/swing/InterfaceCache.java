@@ -26,7 +26,6 @@ import mars.cache.Controller;
 
 public class InterfaceCache extends JPanel {
 
-	
 	//private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTextField textTempoAcessoCache;
@@ -44,12 +43,14 @@ public class InterfaceCache extends JPanel {
 	private JRadioButton radioCacheInstrucoes;
 	private JRadioButton radioCacheUnificada;
 	
+	
 	/**
 	 * Create the panel.
 	 */
 	public InterfaceCache() {
-/*
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.controller = controller;
+		
+		/*setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -105,24 +106,25 @@ public class InterfaceCache extends JPanel {
 		JLabel label_4 = new JLabel();
 		label_4.setText("Blocos por Conjunto");
 		
+		comboBoxBlocosConjunto = new JComboBox<String>();
+		comboBoxBlocosConjunto.setModel(new DefaultComboBoxModel(new String[] {"1"}));
+		comboBoxBlocosConjunto.setSelectedIndex(0);
+		
+		
 		comboBoxMapeamento = new JComboBox<String>();
-		comboBoxMapeamento.setModel(new DefaultComboBoxModel(new String[] {"Direto", "Associativo", "Conjunto Associativo"}));
-		comboBoxMapeamento.setSelectedIndex(0);
 		comboBoxMapeamento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				updateBlocks((String)comboBoxMapeamento.getSelectedItem());
 			}
 		});
-		
+		comboBoxMapeamento.setModel(new DefaultComboBoxModel(new String[] {"Direto", "Associativo", "Conjunto Associativo"}));
+		comboBoxMapeamento.setSelectedIndex(0);
 
 		
 		comboBoxPoliticaSubstituicao = new JComboBox<String>();
 		comboBoxPoliticaSubstituicao.setModel(new DefaultComboBoxModel(new String[] {"LRU", "LRU Aproximado", "FIFO"}));
 		comboBoxPoliticaSubstituicao.setSelectedIndex(0);
 		
-		comboBoxBlocosConjunto = new JComboBox<String>();
-		comboBoxBlocosConjunto.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048"}));
-		comboBoxBlocosConjunto.setSelectedIndex(0);
 		
 		JLabel label_5 = new JLabel();
 		label_5.setText("N\u00FAmero de Blocos");
@@ -148,7 +150,6 @@ public class InterfaceCache extends JPanel {
 			}
 		});
 		
-		
 		comboBoxnBlocos = new JComboBox<String>();
 		comboBoxnBlocos.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048"}));
 		comboBoxnBlocos.setSelectedIndex(0);
@@ -158,7 +159,7 @@ public class InterfaceCache extends JPanel {
 			}
 		});
 		
-	
+		
 		JSeparator separator4 = new JSeparator();
 		
 		JLabel labelTempoAcesso = new JLabel();
@@ -395,10 +396,8 @@ public class InterfaceCache extends JPanel {
 		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("New tab", null, panel_2, null);
 		this.setLayout(gl_contentPane);
-
 	}
-
-
+	
 	private void updateBlocks(String mapeamento)
 	{
 		switch(mapeamento)
@@ -421,16 +420,16 @@ public class InterfaceCache extends JPanel {
 	
 	private void updateSizeCache()
 	{
-		int total = 0;
+		int total;
 		
-		total = Integer.parseInt(comboBoxnPalavrasBloco.getSelectedItem().toString()) * Integer.parseInt(comboBoxnBlocos.getSelectedItem().toString()) * 4;
+		total = Integer.parseInt((String)comboBoxnPalavrasBloco.getSelectedItem()) * Integer.parseInt((String)comboBoxnBlocos.getSelectedItem()) * 4;
 		textTamanhoCache.setText(Integer.toString(total));
 		
 	}
 	
-	private void updateAddress(String tag, String index, String blockOffset, String byteOffset)
+	public void updateAddress(int address)
 	{
-		lblNewLabel.setText("<html>"+ "<font color='red'>" + tag + "</font>" +  "<font color='blue'>" + index + "</font>"  + "<font color='green'>" + blockOffset + "</font>" + "<font color='green'>"+ byteOffset +"</font>" + "</html>");
+		lblNewLabel.setText("<html>"+ "<font color='red'>" + controller.getAddress().tag(address) + "</font>" +  "<font color='blue'>" + controller.getAddress().index(address) + "</font>"  + "<font color='green'>" + controller.getAddress().blockOffset(address) + "</font>" + "<font color='green'>"+ controller.getAddress().byteOffset(address) +"</font>" + "</html>");
 	}
 	
 	
@@ -452,5 +451,4 @@ public class InterfaceCache extends JPanel {
 		controller.setController(tipoCacheSelecionado, (String) comboBoxMapeamento.getSelectedItem() , (String) comboBoxPoliticaSubstituicao.getSelectedItem(), (Integer) comboBoxBlocosConjunto.getSelectedItem(), (Integer) comboBoxnBlocos.getSelectedItem(),
 				(Integer) comboBoxnPalavrasBloco.getSelectedItem(), Integer.parseInt(textTempoAcessoCache.getText()), Integer.parseInt(textTempoAcessoMemoria.getText()));
 	}	
-	
 }
