@@ -47,7 +47,7 @@ public class InterfaceCache extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public InterfaceCache() {
+	public InterfaceCache(Controller controller) {
 		this.controller = controller;
 		
 		/*setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -448,7 +448,9 @@ public class InterfaceCache extends JPanel {
 			tipoCacheSelecionado = "Instrucoes";
 		}
 				
-		controller.setController(tipoCacheSelecionado, (String) comboBoxMapeamento.getSelectedItem() , (String) comboBoxPoliticaSubstituicao.getSelectedItem(), (Integer) comboBoxBlocosConjunto.getSelectedItem(), (Integer) comboBoxnBlocos.getSelectedItem(),
-				(Integer) comboBoxnPalavrasBloco.getSelectedItem(), Integer.parseInt(textTempoAcessoCache.getText()), Integer.parseInt(textTempoAcessoMemoria.getText()));
+		
+		controller.setController(tipoCacheSelecionado, comboBoxMapeamento.getSelectedItem().toString() , comboBoxPoliticaSubstituicao.getSelectedItem().toString(), Integer.parseInt((String) comboBoxBlocosConjunto.getSelectedItem()), Integer.parseInt((String) comboBoxnBlocos.getSelectedItem()),
+				Integer.parseInt((String) comboBoxnPalavrasBloco.getSelectedItem()), Integer.parseInt(textTempoAcessoCache.getText()), Integer.parseInt(textTempoAcessoMemoria.getText()));
+		lblNewLabel.setText("AEHOOO");
 	}	
 }
