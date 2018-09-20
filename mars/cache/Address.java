@@ -3,8 +3,11 @@ package mars.cache;
 public class Address {
 	// são mascaras.
 	private int tag;
+	private int shiftTag;
 	private int index;
+	private int shiftIndex;
 	private int blockOffset;
+	private int shiftBlockOffset;
 	private int byteOffset;
 	
 	public Address(int tag, int index, int blockOffset, int byteOffset) {
@@ -12,18 +15,21 @@ public class Address {
 	
 		this.tag = this.tag >> (32-tag);
 		this.tag = this.tag << (32-tag);
+		this.shiftTag = 32 - tag;
 		
 		
 		this.index = this.index >> (32-index);
 		this.index = this.index << (32-index);
 		this.index = this.index >> tag;
+		this.shiftIndex = 32 - index - tag;
 		
 		
 		this.blockOffset = this.blockOffset >> (32-blockOffset);
 		this.blockOffset = this.blockOffset << (32-blockOffset);
 		this.blockOffset = this.blockOffset >> tag;
 		this.blockOffset = this.blockOffset >> index;
-		
+		this.shiftBlockOffset = 32 - index - tag - blockOffset;
+				
 		if(byteOffset > 0)
 		{
 			this.byteOffset = 3;
@@ -31,24 +37,25 @@ public class Address {
 	}
 	
 	
-	public int tag(int address)
+	public String tag(int address)
 	{
-		return address & this.tag; 
+		return Integer.toBinaryString((address & this.tag) >> this.shiftTag); 
+		
 	}
 	
-	public int index(int address)
+	public String index(int address)
 	{
-		return address & this.index;
+		return Integer.toBinaryString((address & this.index) >> this.shiftIndex);
 	}
 	
-	public int blockOffset(int address)
+	public String blockOffset(int address)
 	{
-		return address & this.blockOffset;
+		return Integer.toBinaryString((address & this.blockOffset) >> this.shiftBlockOffset);
 	}
 	
-	public int byteOffset(int address)
+	public String byteOffset(int address)
 	{
-		return address & this.byteOffset;
+		return Integer.toBinaryString(address & this.byteOffset);
 	}
 	
 	
