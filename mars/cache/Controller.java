@@ -23,6 +23,23 @@ public class Controller {
 		this.tempoAcessoCache = tempoAcessoCache;
 		this.tempoAcessoMemoria = tempoAcessoMemoria;
 	}
+	
+	
+	
+	public void setController(String tipoCache, String mapeamento, String politicaSubstituicao, int blocosConjunto, int nBlocos,
+			int nPalavrasBloco, int tempoAcessoCache, int tempoAcessoMemoria) {
+		this.tipoCache = tipoCache;
+		this.mapeamento = mapeamento;
+		this.politicaSubstituicao = politicaSubstituicao;
+		this.blocosConjunto = blocosConjunto;
+		this.nBlocos = nBlocos;
+		this.nPalavrasBloco = nPalavrasBloco;
+		this.tempoAcessoCache = tempoAcessoCache;
+		this.tempoAcessoMemoria = tempoAcessoMemoria;
+	}
+	
+	
+	
 
 
 	public String getTipoCache() {
