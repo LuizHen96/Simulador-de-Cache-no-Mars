@@ -5,6 +5,7 @@ package mars.tools;
 import javax.swing.JComponent;
 import mars.cache.*;
 import mars.cache.swing.PanelCache;
+import mars.cache.swing.InterfaceCache;
 
 public class SimuladorCache extends AbstractMarsToolAndApplication {
 	private static String name = "Simulador Cache";
@@ -27,7 +28,7 @@ public class SimuladorCache extends AbstractMarsToolAndApplication {
 
 	@Override
 	protected JComponent buildMainDisplayArea() {
-		PanelCache panel = new PanelCache();
+		InterfaceCache panel = new InterfaceCache();
 		
 		
 		return panel;
