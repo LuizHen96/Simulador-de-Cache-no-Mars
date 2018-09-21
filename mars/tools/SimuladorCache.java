@@ -37,7 +37,7 @@ public class SimuladorCache extends AbstractMarsToolAndApplication {
 	@Override
 	protected JComponent buildMainDisplayArea() {
 		Controller controller = new Controller();
-		panel = new InterfaceCache();
+		panel = new InterfaceCache(controller);
 		
 		
 		return panel;
@@ -48,6 +48,7 @@ public class SimuladorCache extends AbstractMarsToolAndApplication {
 	}
 	
 	protected void processMIPSUpdate(Observable resource, AccessNotice accessNotice) {
+		
 		 MemoryAccessNotice notice = (MemoryAccessNotice) accessNotice;
 		 memoryAccessCount ++;
 		 
