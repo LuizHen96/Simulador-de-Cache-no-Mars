@@ -1,33 +1,48 @@
 package mars.cache;
-
 public class Address {
 	// são mascaras.
 	private int tag;
+	private int tagLenght;
 	private int shiftTag;
 	private int index;
+	private int indexLenght;
 	private int shiftIndex;
 	private int blockOffset;
+	private int blockOffsetLenght;
 	private int shiftBlockOffset;
 	private int byteOffset;
 	
 	public Address(int tag, int index, int blockOffset, int byteOffset) {
-		this.tag = this.index = this.blockOffset = -1;
+		
+		this.tag = this.index = this.blockOffset = 0;
+		this.tagLenght = tag;
+		this.indexLenght = index;
+		this.blockOffsetLenght= blockOffset;
 	
-		this.tag = this.tag >> (32-tag);
-		this.tag = this.tag << (32-tag);
+		
+		for(int i=0; i< tag; i++)
+		{
+			this.tag = this.tag << 1;
+			this.tag += 1;
+		}
+		this.tag  = this.tag << (32-tag);
 		this.shiftTag = 32 - tag;
 		
-		
-		this.index = this.index >> (32-index);
-		this.index = this.index << (32-index);
-		this.index = this.index >> tag;
+		for(int i=0; i< index; i++)
+		{
+			this.index = this.index << 1;
+			this.index += 1;
+		}
+		this.index = this.index << (32-index - tag);
 		this.shiftIndex = 32 - index - tag;
 		
 		
-		this.blockOffset = this.blockOffset >> (32-blockOffset);
-		this.blockOffset = this.blockOffset << (32-blockOffset);
-		this.blockOffset = this.blockOffset >> tag;
-		this.blockOffset = this.blockOffset >> index;
+		for(int i=0; i< blockOffset; i++)
+		{
+			this.blockOffset = this.blockOffset << 1;
+			this.blockOffset += 1;
+		}
+		this.blockOffset = this.blockOffset << (32-index - tag - blockOffset);
 		this.shiftBlockOffset = 32 - index - tag - blockOffset;
 				
 		if(byteOffset > 0)
@@ -39,18 +54,27 @@ public class Address {
 	
 	public String tag(int address)
 	{
-		return Integer.toBinaryString((address & this.tag) >> this.shiftTag); 
+		String aux;
+		int aux2 = Integer.parseInt(Integer.toBinaryString((address & this.tag) >> this.shiftTag));
+		aux = "%0"+tagLenght+"d";
+		return String.format(aux, aux2); 
 		
 	}
 	
 	public String index(int address)
 	{
-		return Integer.toBinaryString((address & this.index) >> this.shiftIndex);
+		String aux;
+		int aux2 = Integer.parseInt(Integer.toBinaryString((address & this.index) >> this.shiftIndex));
+		aux = "%0"+indexLenght+"d";
+		return String.format(aux, aux2);
 	}
 	
 	public String blockOffset(int address)
 	{
-		return Integer.toBinaryString((address & this.blockOffset) >> this.shiftBlockOffset);
+		String aux;
+		int aux2 = Integer.parseInt(Integer.toBinaryString((address & this.blockOffset) >> this.shiftBlockOffset));
+		aux = "%0"+blockOffsetLenght+"d";
+		return String.format(aux, aux2);
 	}
 	
 	public String byteOffset(int address)

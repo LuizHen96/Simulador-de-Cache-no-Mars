@@ -10,6 +10,7 @@ public class Cache {
 	private String replacementPolicy;
 	
 	
+	
 	public Cache(int nBlocks, int blockSize, int setSize, String cacheStorage, String placementPolicy,
 			String replacementPolicy) {
 		super();
@@ -21,6 +22,11 @@ public class Cache {
 		this.replacementPolicy = replacementPolicy;
 	}
 
+	
+	
+	
+	
+	
 	
 	
 	
