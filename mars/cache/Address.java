@@ -1,6 +1,6 @@
 package mars.cache;
 public class Address {
-	// são mascaras.
+
 	private int tag;
 	private int tagLenght;
 	private int shiftTag;
@@ -81,6 +81,23 @@ public class Address {
 	{
 		return Integer.toBinaryString(address & this.byteOffset);
 	}
+
+
+	public int getTagLenght() {
+		return tagLenght;
+	}
+
+
+	public int getIndexLenght() {
+		return indexLenght;
+	}
+
+
+	public int getBlockOffsetLenght() {
+		return blockOffsetLenght;
+	}
+	
+	
 	
 	
 
