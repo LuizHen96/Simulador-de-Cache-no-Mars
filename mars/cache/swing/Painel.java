@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import mars.cache.Controller;
+import mars.cache.swing.staticcache.StaticCache;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -18,6 +19,8 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import java.awt.Font;
 import javax.swing.JComboBox;
@@ -30,6 +33,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.UIManager;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -37,6 +42,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.SystemColor;
 
 public class Painel extends JFrame {
 
@@ -51,16 +57,19 @@ public class Painel extends JFrame {
 	private JComboBox<String> comboBoxMapeamento;
 	private JComboBox<String> comboBoxPoliticaSubstituicao;
 	private JTextArea textTamanhoCache;
-	private JLabel lblNewLabel;
 	private Controller controller;
 	private JRadioButton radioCacheDados;
 	private JRadioButton radioCacheInstrucoes;
 	private JRadioButton radioCacheUnificada;
 	private JTable table;
-	private JLabel lblTagBits;
-	private JLabel lblIndexBits;
-	private JLabel lblBlockOffsetBits;
-	
+	private JLabel labelAddressByteOffset;
+	private JLabel labelAddressBlockOffset;
+	private JLabel labelAddressIndex;
+	private JLabel labelAddressTag;
+	private StaticCache staticCache;
+	private JScrollPane scrollPane;
+	private JTable table_1;
+
 
 	/**
 	 * Launch the application.
@@ -84,6 +93,7 @@ public class Painel extends JFrame {
 	 */
 	public Painel(Controller controller) {
 		this.controller = controller;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
@@ -109,38 +119,46 @@ public class Painel extends JFrame {
 		labelTipoArazenamento.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JSeparator separator = new JSeparator();
-		
 		radioCacheDados = new JRadioButton();
+		radioCacheDados.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		radioCacheDados.setSelected(true);
 		buttonGroup.add(radioCacheDados);
 		radioCacheDados.setText("Data Cache");
 		
 		radioCacheInstrucoes = new JRadioButton();
+		radioCacheInstrucoes.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		buttonGroup.add(radioCacheInstrucoes);
 		radioCacheInstrucoes.setText("Instruction Cache");
 		
 		radioCacheUnificada = new JRadioButton();
+		radioCacheUnificada.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		buttonGroup.add(radioCacheUnificada);
 		radioCacheUnificada.setText("Unified Cache");
 		
 		JSeparator separator2 = new JSeparator();
+		separator2.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		JLabel labelOrganizacaoCache = new JLabel();
 		labelOrganizacaoCache.setText("Cache Organization");
 		labelOrganizacaoCache.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JSeparator separator3 = new JSeparator();
+		separator3.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		JLabel labelMapeamento = new JLabel();
+		labelMapeamento.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		labelMapeamento.setText("Placement Policy");
 		
 		JLabel lblBlockReplacementPolicy = new JLabel();
+		lblBlockReplacementPolicy.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblBlockReplacementPolicy.setText("Block Replacement Policy");
 		
 		JLabel lblSet = new JLabel();
+		lblSet.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblSet.setText("Set size (blocks)");
 		
 		comboBoxMapeamento = new JComboBox<String>();
+		comboBoxMapeamento.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxMapeamento.setModel(new DefaultComboBoxModel(new String[] {"Direct-mapped", "Fully Associative", "Set-associative"}));
 		comboBoxMapeamento.setSelectedIndex(0);
 		comboBoxMapeamento.addActionListener(new ActionListener() {
@@ -151,10 +169,12 @@ public class Painel extends JFrame {
 		});
 		
 		comboBoxPoliticaSubstituicao = new JComboBox<String>();
+		comboBoxPoliticaSubstituicao.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxPoliticaSubstituicao.setModel(new DefaultComboBoxModel(new String[] {"LRU", "LRU Aproximado", "FIFO"}));
 		comboBoxPoliticaSubstituicao.setSelectedIndex(0);
 		
 		comboBoxBlocosConjunto = new JComboBox<String>();
+		comboBoxBlocosConjunto.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
 		comboBoxBlocosConjunto.setModel(new DefaultComboBoxModel(new String[] {"1"}));
 		comboBoxBlocosConjunto.setSelectedIndex(0);
@@ -165,12 +185,15 @@ public class Painel extends JFrame {
 		});
 		
 		JLabel lblNumberOf = new JLabel();
+		lblNumberOf.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNumberOf.setText("Number of blocks");
 		
 		JLabel lblCacheBlockSize = new JLabel();
-		lblCacheBlockSize.setText("Cache block size ( words)");
+		lblCacheBlockSize.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblCacheBlockSize.setText("Block size ( words)");
 		
 		JLabel labelTamanhoCache = new JLabel();
+		labelTamanhoCache.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		labelTamanhoCache.setText("Cache size (bytes)");
 		
 		textTamanhoCache = new JTextArea();
@@ -180,6 +203,7 @@ public class Painel extends JFrame {
 		textTamanhoCache.setColumns(20);
 		
 		comboBoxnPalavrasBloco = new JComboBox<String>();
+		comboBoxnPalavrasBloco.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxnPalavrasBloco.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048"}));
 		comboBoxnPalavrasBloco.setSelectedIndex(0);
 		comboBoxnPalavrasBloco.addActionListener(new ActionListener() {
@@ -190,6 +214,7 @@ public class Painel extends JFrame {
 		});
 		
 		comboBoxnBlocos = new JComboBox<String>();
+		comboBoxnBlocos.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxnBlocos.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048"}));
 		comboBoxnBlocos.setSelectedIndex(0);
 		comboBoxnBlocos.addActionListener(new ActionListener() {
@@ -202,29 +227,35 @@ public class Painel extends JFrame {
 		
 		
 		JSeparator separator4 = new JSeparator();
+		separator4.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		JLabel labelTempoAcesso = new JLabel();
-		labelTempoAcesso.setText("Time access");
+		labelTempoAcesso.setText("Access Time");
 		labelTempoAcesso.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JSeparator separator5 = new JSeparator();
+		separator5.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		JLabel lblCacheAccessTime = new JLabel();
+		lblCacheAccessTime.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblCacheAccessTime.setText("Cache Access Time (ms)");
 		
 		textTempoAcessoCache = new JTextField();
+		textTempoAcessoCache.setAlignmentX(Component.LEFT_ALIGNMENT);
 		textTempoAcessoCache.setText("10");
 		
 		JLabel labelTempoAcessoMemoria = new JLabel();
+		labelTempoAcessoMemoria.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		labelTempoAcessoMemoria.setText("Memory Access Time (ms)");
 		
 		textTempoAcessoMemoria = new JTextField();
 		textTempoAcessoMemoria.setText("100");
 		
-		JButton btnSalvar = new JButton("Save");
+		JButton btnSalvar = new JButton("Apply");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonSalvar();
+				updateAddressing();
 			}
 		});
 		btnSalvar.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -236,44 +267,69 @@ public class Painel extends JFrame {
 		lblAddress.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JSeparator separator_2 = new JSeparator();
+		separator_2.setAlignmentX(Component.LEFT_ALIGNMENT);
+		int widthTable = 346;
 		
 		table = new JTable();
-		table.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		table.setEnabled(false);
 		table.setRowSelectionAllowed(false);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Tag", "Index", "BlockOffset"},
+				{"Tag", "ByteOffset"},
 			},
 			new String[] {
-				"TAG", "INDEX", "BLOCKOFFSET"
+				"TAG", "ByteOffset"
 			}
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(69);
-		table.getColumnModel().getColumn(2).setPreferredWidth(110);
+		
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(widthTable - 100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 		table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-		
+
 		table.setRowHeight(30);
+	
 		
 		JLabel lblAddressBits = new JLabel("Address (32 bits)");
 		
-		lblTagBits = new JLabel("32 bits");
-		lblTagBits.setMaximumSize(new Dimension(40, 14));
-		lblTagBits.setMinimumSize(new Dimension(40, 14));
+		labelAddressByteOffset = new JLabel("<html> Main memory addressed by bytes &rarr; 2-bit ByteOffset </html>");
+		labelAddressByteOffset.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		lblIndexBits = new JLabel("0 bits");
-		lblIndexBits.setMaximumSize(new Dimension(40, 14));
-		lblIndexBits.setMinimumSize(new Dimension(40, 14));
+		labelAddressBlockOffset = new JLabel("<html> Blocks of "+ 1 +" = 2<sup> " + 0 + " </sup> words &rarr;  There is no block offset </html>");
+		labelAddressBlockOffset.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		lblBlockOffsetBits = new JLabel("0 bits");
-		lblBlockOffsetBits.setMinimumSize(new Dimension(40, 14));
-		lblBlockOffsetBits.setMaximumSize(new Dimension(40, 14));
+		labelAddressIndex = new JLabel("<html> Cache with 1 blocks and associativity 1 &rarr; Number of cache sets = 1 = 2 <sup>0</sup> sets &rarr; There is no index </html>");
+		labelAddressIndex.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		labelAddressTag = new JLabel("<html> 32-bit memory address &rarr; Tag of 32 - 0 - 0 - 2 = 30-bit Tag </html>");
+		labelAddressTag.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		table_1 = new JTable();
+		table_1.setBackground(SystemColor.menu);
+		table_1.setShowGrid(false);
+		table_1.setBorder(null);
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"30 bits", "2 bits"},
+			},
+			new String[] {
+				"New column2", "New column"
+			}
+		));
+		table_1.setColumnSelectionAllowed(true);
+		table_1.setCellSelectionEnabled(true);
+		table_1.setRowSelectionAllowed(false);
+		table_1.setRowHeight(30);
+		table_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table_1.setEnabled(false);
 		
 	
+		
 		
 		
 		
@@ -281,7 +337,7 @@ public class Painel extends JFrame {
 		gl_panelConfiguracoes.setHorizontalGroup(
 			gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelConfiguracoes.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addContainerGap()
 					.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
 							.addComponent(radioCacheDados, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
@@ -289,21 +345,16 @@ public class Painel extends JFrame {
 							.addComponent(radioCacheInstrucoes, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(radioCacheUnificada, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE))
-						.addComponent(labelTipoArazenamento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 763, GroupLayout.PREFERRED_SIZE)
 						.addComponent(separator2, GroupLayout.PREFERRED_SIZE, 763, GroupLayout.PREFERRED_SIZE)
-						.addComponent(labelOrganizacaoCache, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
 						.addComponent(separator3, GroupLayout.PREFERRED_SIZE, 763, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
 							.addComponent(labelMapeamento, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-							.addGap(57)
-							.addComponent(comboBoxMapeamento, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
+							.addGap(201)
 							.addComponent(lblNumberOf, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
 							.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblBlockReplacementPolicy, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblSet, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblSet, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblBlockReplacementPolicy, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_panelConfiguracoes.createSequentialGroup()
@@ -314,47 +365,72 @@ public class Painel extends JFrame {
 									.addGap(18)
 									.addComponent(textTamanhoCache, 0, 0, Short.MAX_VALUE))
 								.addGroup(gl_panelConfiguracoes.createSequentialGroup()
-									.addGap(42)
-									.addComponent(comboBoxPoliticaSubstituicao, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(lblCacheBlockSize, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
-									.addGap(39)
-									.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
-										.addComponent(comboBoxnBlocos, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-										.addComponent(comboBoxnPalavrasBloco, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))))
+									.addGap(23)
+									.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+											.addComponent(comboBoxPoliticaSubstituicao, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(lblCacheBlockSize, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
+											.addGap(39))
+										.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+											.addComponent(comboBoxMapeamento, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
+											.addGap(218)))
+									.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(comboBoxnBlocos, 0, 59, Short.MAX_VALUE)
+										.addComponent(comboBoxnPalavrasBloco, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
 						.addComponent(separator4, GroupLayout.PREFERRED_SIZE, 763, GroupLayout.PREFERRED_SIZE)
 						.addComponent(labelTempoAcesso, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
 						.addComponent(separator5, GroupLayout.PREFERRED_SIZE, 763, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.TRAILING)
-							.addComponent(btnSalvar)
-							.addGroup(gl_panelConfiguracoes.createSequentialGroup()
-								.addComponent(lblCacheAccessTime, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-								.addGap(78)
-								.addComponent(textTempoAcessoCache, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(labelTempoAcessoMemoria, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-								.addGap(28)
-								.addComponent(textTempoAcessoMemoria, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+							.addComponent(lblCacheAccessTime, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
+							.addGap(78)
+							.addComponent(textTempoAcessoCache, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(labelTempoAcessoMemoria, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+							.addGap(28)
+							.addComponent(textTempoAcessoMemoria, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
 						.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 763, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
 						.addComponent(separator_2, GroupLayout.PREFERRED_SIZE, 763, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				.addGroup(gl_panelConfiguracoes.createSequentialGroup()
 					.addGap(299)
 					.addComponent(lblAddressBits)
 					.addContainerGap(402, Short.MAX_VALUE))
 				.addGroup(gl_panelConfiguracoes.createSequentialGroup()
-					.addGap(211)
+					.addContainerGap()
 					.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
-							.addGap(10)
-							.addComponent(lblTagBits, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(50)
-							.addComponent(lblIndexBits, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(53)
-							.addComponent(lblBlockOffsetBits, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-						.addComponent(table, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(310, Short.MAX_VALUE))
+							.addComponent(labelAddressByteOffset, GroupLayout.PREFERRED_SIZE, 504, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 148, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+							.addComponent(labelAddressBlockOffset, GroupLayout.PREFERRED_SIZE, 504, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 148, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+							.addComponent(labelAddressTag, GroupLayout.PREFERRED_SIZE, 504, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 148, GroupLayout.PREFERRED_SIZE))
+						.addComponent(labelAddressIndex, GroupLayout.PREFERRED_SIZE, 652, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+					.addComponent(btnSalvar)
+					.addGap(23))
+				.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 763, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(labelOrganizacaoCache, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(649, Short.MAX_VALUE))
+				.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(labelTipoArazenamento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(580, Short.MAX_VALUE))
+				.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+					.addGap(188)
+					.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
+						.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
+						.addComponent(table, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(249, Short.MAX_VALUE))
 		);
 		gl_panelConfiguracoes.setVerticalGroup(
 			gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
@@ -365,8 +441,9 @@ public class Painel extends JFrame {
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
-						.addComponent(radioCacheDados)
-						.addComponent(radioCacheInstrucoes)
+						.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.BASELINE)
+							.addComponent(radioCacheInstrucoes)
+							.addComponent(radioCacheDados))
 						.addComponent(radioCacheUnificada))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -377,22 +454,23 @@ public class Painel extends JFrame {
 					.addGap(9)
 					.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.BASELINE)
-							.addComponent(comboBoxMapeamento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(lblNumberOf)
-							.addComponent(comboBoxnBlocos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(comboBoxnBlocos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(comboBoxMapeamento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addComponent(labelMapeamento))
 					.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
-							.addGap(6)
-							.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
-								.addComponent(comboBoxPoliticaSubstituicao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboBoxnPalavrasBloco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
 							.addGap(9)
 							.addComponent(lblCacheBlockSize))
 						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
 							.addGap(9)
-							.addComponent(lblBlockReplacementPolicy)))
+							.addComponent(lblBlockReplacementPolicy))
+						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+							.addGap(6)
+							.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
+								.addComponent(comboBoxnPalavrasBloco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboBoxPoliticaSubstituicao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
 							.addGap(9)
@@ -432,87 +510,50 @@ public class Painel extends JFrame {
 					.addComponent(lblAddressBits)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(table, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTagBits, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBlockOffsetBits, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblIndexBits, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(109)
-					.addComponent(btnSalvar)
-					.addGap(106))
+					.addGroup(gl_panelConfiguracoes.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+							.addGap(151)
+							.addComponent(btnSalvar))
+						.addGroup(gl_panelConfiguracoes.createSequentialGroup()
+							.addGap(6)
+							.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+							.addGap(9)
+							.addComponent(labelAddressByteOffset, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(labelAddressBlockOffset, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(labelAddressIndex, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(labelAddressTag, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
+					.addGap(100))
 		);
 		panelConfiguracoes.setLayout(gl_panelConfiguracoes);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Addressing", null, panel_1, null);
-				
-				lblNewLabel = new JLabel("00000000000000000000000000000000");
-				lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 37));
-				//lblNewLabel.setText("<html>"+ "<font color='red'>" + "000010101000" + "</font>" +  "<font color='blue'>" + "11001100" + "</font>"  + "00111100" + "0000" + "</html>");
-				lblNewLabel.setText("<html>"+ "<font color='red'>" + "000010101000" + "</font>" +  "<font color='blue'>" + "11001100" + "</font>"  + "<font color='green'>" +  "00111100" + "</font>" + "<font color='gray'>"+ "0000" +"</font>" + "</html>");
-				
-				JLabel lblNewLabel_1 = new JLabel("TAG:");
-				lblNewLabel_1.setForeground(new Color(255, 0, 0));
-				lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
-				
-				JLabel label_11 = new JLabel("\u00CDNDICE:");
-				label_11.setForeground(new Color(0, 0, 255));
-				label_11.setFont(new Font("Tahoma", Font.PLAIN, 25));
-				
-				JLabel label_12 = new JLabel("BLOCKOFFSET:");
-				label_12.setForeground(new Color(0, 128, 0));
-				label_12.setFont(new Font("Tahoma", Font.PLAIN, 25));
-				
-				JLabel label_13 = new JLabel("BYTEOFFSET:");
-				label_13.setForeground(new Color(128, 128, 128));
-				label_13.setFont(new Font("Tahoma", Font.PLAIN, 25));
-				
+		Line line = new Line();
+		line.setBounds(0, 0, 783, 539);
 		
-				GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-				gl_panel_1.setHorizontalGroup(
-					gl_panel_1.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addContainerGap()
-									.addComponent(lblNewLabel_1))
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addContainerGap()
-									.addComponent(label_11))
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addContainerGap()
-									.addComponent(label_12, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addContainerGap()
-									.addComponent(label_13, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addGap(64)
-									.addComponent(lblNewLabel)))
-							.addContainerGap(79, Short.MAX_VALUE))
-				);
-				gl_panel_1.setVerticalGroup(
-					gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGap(18)
-							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblNewLabel_1)
-							.addGap(46)
-							.addComponent(label_11, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addGap(49)
-							.addComponent(label_12, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addGap(55)
-							.addComponent(label_13, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(175, Short.MAX_VALUE))
-				);
-				panel_1.setLayout(gl_panel_1);
 		
-		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_2, null);
+	/*	staticCache = new StaticCache(controller);
+		staticCache.setBorder(BorderFactory.createLineBorder(Color.black));
+		staticCache.setPreferredSize(new Dimension(2000, 840));
+		scrollPane = new JScrollPane(staticCache, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setPreferredSize(new Dimension(2000, 840));
+		tabbedPane.addTab("Cache", null, scrollPane, null);*/
+		//tabbedPane.;
+		
+		//JPanel panel_2 = new JPanel();
+		
+		//panel_2.setLayout(null);
+		
+		
+		//panel_2.add(line);	
+		
 		
 		Canvas canvas = new Canvas();
 		tabbedPane.addTab("New tab", null, canvas, null);
-		contentPane.setLayout(gl_contentPane);
+	
+				
+		getContentPane().setLayout(gl_contentPane);
 	}
 	
 	private void updateBlocks()
@@ -530,11 +571,14 @@ public class Painel extends JFrame {
 				break;
 			case "Set-associative":
 				stringBlocks = new  String[] { "1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048"};
-				for(int i = 11; i > comboBoxnBlocos.getSelectedIndex(); i--)
+				String[] newStringBlocks = new String[comboBoxnBlocos.getSelectedIndex()+1];
+				for(int i =0; i < comboBoxnBlocos.getSelectedIndex()+1; i++)
 				{
-					stringBlocks[i] = null;
+					newStringBlocks[i] = stringBlocks[i];
 				}
-				comboBoxBlocosConjunto.setModel(new DefaultComboBoxModel(stringBlocks));
+	
+				comboBoxBlocosConjunto.setModel(new DefaultComboBoxModel(newStringBlocks));
+				comboBoxBlocosConjunto.setSelectedIndex(0);
 				break;
 		}
 		
@@ -562,21 +606,39 @@ public class Painel extends JFrame {
 		
 		index = (int) (Math.log(nBlocks/setSize)/Math.log(2));
 		blockOffset = ((int) (Math.log(blocksSize)/Math.log(2)));
-		tag = 32 - index - blockOffset;
+		tag = 32 - index - blockOffset - 2;
 		
-		lblTagBits.setText(tag + " bits");
-		lblIndexBits.setText(index + " bits");
-		lblBlockOffsetBits.setText( blockOffset + " bits");
-		
-		
-		
+		//lblTagBits.setText(tag + " bits");
+		//lblIndexBits.setText(index + " bits");
+		//lblBlockOffsetBits.setText( blockOffset + " bits");
+		updateAddressing();
 	}
 	
+	private void updateAddressing() {
+		
 	
-	public void updateAddress(int address)
-	{
-		lblNewLabel.setText("<html>"+ "<font color='red'>" + controller.getAddress().tag(address) + "</font>" +  "<font color='blue'>" + controller.getAddress().index(address) + "</font>"  + "<font color='green'>" + controller.getAddress().blockOffset(address) + "</font>" + "<font color='green'>"+ controller.getAddress().byteOffset(address) +"</font>" + "</html>");
+		//lblAddressByteOffset.setText("<html> Main memory addressed by words &rarr; <font color='gray'> There is no byte offset </font> </html>");
+		
+		if(controller.getAddress().getBlockOffsetLenght() == 0) {
+			labelAddressBlockOffset.setText("<html> Blocks of "+ 1 +" = 2<sup> " + 0 + " </sup> words &rarr;  There is no block offset </html>");
+		}
+		else
+		{
+			labelAddressBlockOffset.setText("<html> Blocks of "+ controller.getBlocosConjunto() +" = 2<sup>" + controller.getAddress().getBlockOffsetLenght() + "</sup> words &rarr; "+ controller.getAddress().getBlockOffsetLenght() + " bits </html>");
+		}
+		if(controller.getAddress().getIndexLenght() == 0) {
+			labelAddressIndex.setText("<html> Cache with "+ controller.getnBlocos() + " blocks and associativity "+ controller.getnBlocos() +" &rarr; Number of cache sets = " + 1 +  "/" + 1+ " = " + 1+ " = 2 <sup>" + 0 + "</sup> sets &rarr; There is no index </html>");
+		}
+		else
+		{
+			labelAddressIndex.setText("<html> Cache with "+ controller.getnBlocos() + " blocks and associativity "+ (controller.getnBlocos()/controller.getBlocosConjunto()) +" &rarr; Number of cache sets = " + 1 +  + 1+ " = " + 1+ " = 2 <sup>" + 0 + "</sup> sets &rarr; There is no index </html>");
+		}
+		
+		labelAddressTag.setText("<html> 32-bit memory address &rarr; Tag of 32 - "+ 0 +" - " + controller.getAddress().getBlockOffsetLenght() + " - " + controller.getAddress().getIndexLenght() +" = " + controller.getAddress().getTagLenght() + " bits </html>");
+
 	}
+	
+
 	
 	
 	private void buttonSalvar() {

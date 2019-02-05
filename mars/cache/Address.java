@@ -55,31 +55,31 @@ public class Address {
 	public String tag(int address)
 	{
 		String aux;
-		int aux2 = Integer.parseInt(Integer.toBinaryString((address & this.tag) >> this.shiftTag));
+		int aux2 = (address & this.tag) >> this.shiftTag;
 		aux = "%0"+tagLenght+"d";
-		return String.format(aux, aux2); 
+		return aux2 + ""; 
 		
 	}
 	
 	public String index(int address)
 	{
 		String aux;
-		int aux2 = Integer.parseInt(Integer.toBinaryString((address & this.index) >> this.shiftIndex));
+		int aux2 = (address & this.index) >> this.shiftIndex;
 		aux = "%0"+indexLenght+"d";
-		return String.format(aux, aux2);
+		return aux2 + "";
 	}
 	
 	public String blockOffset(int address)
 	{
 		String aux;
-		int aux2 = Integer.parseInt(Integer.toBinaryString((address & this.blockOffset) >> this.shiftBlockOffset));
+		int aux2 = (address & this.blockOffset) >> this.shiftBlockOffset;
 		aux = "%0"+blockOffsetLenght+"d";
-		return String.format(aux, aux2);
+		return aux2 + "";
 	}
 	
 	public String byteOffset(int address)
 	{
-		return Integer.toBinaryString(address & this.byteOffset);
+		return (address & this.byteOffset) + "";
 	}
 
 
@@ -97,6 +97,21 @@ public class Address {
 		return blockOffsetLenght;
 	}
 	
+	public String blockNumber(int address, int nPalavrasBloco)
+	{
+		int nPalavra = address / 4;
+		int nBloco;
+		if(nPalavrasBloco > 1)
+		{
+			nBloco = nPalavra / nPalavrasBloco;
+		}
+		else
+		{
+			nBloco = nPalavra;
+		}
+		
+		return nBloco + "";
+	}
 	
 	
 	

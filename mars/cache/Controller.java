@@ -9,6 +9,7 @@ public class Controller {
 	private int nPalavrasBloco;
 	private int tempoAcessoCache;
 	private int tempoAcessoMemoria;
+	private int nWay;
 	
 	private Cache cache;
 	private Address address;
@@ -19,6 +20,12 @@ public class Controller {
 	
 	public Controller() {
 		this.address = new Address(0,0,0,0);
+		this.nWay = 1;
+		this.blocosConjunto = 1;
+		this.nBlocos = 1;
+		this.nPalavrasBloco = 1;
+		this.tipoCache = "Dados";
+
 	}
 	
 	
@@ -26,11 +33,11 @@ public class Controller {
 	public void setController(String tipoCache, String mapeamento, String politicaSubstituicao, int blocosConjunto, int nBlocos,
 		int nPalavrasBloco, int tempoAcessoCache, int tempoAcessoMemoria) {
 		int tag, index, blockOffset, byteOffset;
-		index = (int) (Math.log(nBlocos/blocosConjunto)/Math.log(2));
+		index = (int) (Math.log((nBlocos /(nBlocos/blocosConjunto)))/Math.log(2));
 		blockOffset = (int) (Math.log(nPalavrasBloco)/Math.log(2));
 		byteOffset = 0;
 		tag = 32 - index - blockOffset - byteOffset;
-		
+		this.nWay = (nBlocos/blocosConjunto);
 		
 		this.tipoCache = tipoCache;
 		this.mapeamento = mapeamento;
@@ -91,6 +98,12 @@ public class Controller {
 	public Address getAddress()
 	{
 		return address;
+	}
+
+
+
+	public int getnWay() {
+		return nWay;
 	}
 	
 	
