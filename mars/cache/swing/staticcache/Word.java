@@ -14,19 +14,25 @@ public class Word extends JPanel{
 	private int x;
 	private int y;
 	private int number;
+	private int widthWord;
 	
 	private static final long serialVersionUID = 1L;
 	
 	
-	static final int WITDTH_WORD = 45;
+	public static int WITDTH_WORD = 45;
+	public static int WITDTH_W = 30;
 	public static final int HEIGHT_ROW = 20;
 	
 	
-	public Word(int x, int y, int number)
+	public Word(int x, int y, int number, int nWords)
 	{
 		this.number = number;
 		this.x = x;
 		this.y = y;
+		if(nWords < 8)
+			widthWord = 45;
+		else
+			widthWord = 30;
 	}
 
 	
@@ -34,7 +40,7 @@ public class Word extends JPanel{
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.black);
-		g2.drawRect(x, y, WITDTH_WORD, HEIGHT_ROW);
+		g2.drawRect(x, y, widthWord, HEIGHT_ROW);
 		
 		
 		/*Font font = new Font("Serif", Font.PLAIN, 14);
@@ -46,6 +52,6 @@ public class Word extends JPanel{
 	{
 		x += a;
 		y += b;
-		this.setBounds(x, y, WITDTH_WORD, HEIGHT_ROW);
+		this.setBounds(x, y, widthWord, HEIGHT_ROW);
 	}
 }

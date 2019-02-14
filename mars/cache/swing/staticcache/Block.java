@@ -15,6 +15,7 @@ public class Block extends JPanel {
 	private Word[] words;
 	private int nWords;
 	private int x, y;
+	private int widthWord;
 	
 	
 	public static final int HEIGHT_ROW = Word.HEIGHT_ROW;
@@ -33,12 +34,17 @@ public class Block extends JPanel {
 	public Block(int n, int x, int y) {
 		this.x = x;
 		this.y = y;
-		
 		nWords = n;
+		
+		if(nWords < 8)
+			widthWord = Word.WITDTH_WORD;
+		else
+			widthWord = Word.WITDTH_W;
+		
 		words = new Word[n];
 		for(int i=0; i<n; i++)
 		{
-			words[i] = new Word((WITDTH_V + WITDTH_M + Block.WITDTH_TAG+(i*Word.WITDTH_WORD))+x, y, i);
+			words[i] = new Word((WITDTH_V + WITDTH_M + Block.WITDTH_TAG+(i*widthWord))+x, y, i, nWords);
 		}
 		
 		
@@ -70,7 +76,7 @@ public class Block extends JPanel {
 			words[i].paintComponent(g);
 		}
 		
-		this.setBounds(x, y, (nWords*Word.WITDTH_WORD)+WITDTH_V + WITDTH_M + WITDTH_TAG, Word.HEIGHT_ROW);
+		this.setBounds(x, y, (nWords*widthWord)+WITDTH_V + WITDTH_M + WITDTH_TAG, Word.HEIGHT_ROW);
 
 	}
 

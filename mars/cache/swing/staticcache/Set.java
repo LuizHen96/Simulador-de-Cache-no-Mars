@@ -14,6 +14,7 @@ public class Set extends JPanel {
 	private Block[] blocks;
 	private int nBlocks;
 	private int nWords;
+	private int widthWord;
 	private int x, y;
 
 	
@@ -38,6 +39,11 @@ public class Set extends JPanel {
 			blocks[i] = new Block(nWords, x, (Word.HEIGHT_ROW*i)+y+HEIGHT_NAMES);
 		}
 		
+		if(nWords < 8)
+			widthWord = Word.WITDTH_WORD;
+		else
+			widthWord = Word.WITDTH_W;
+		
 	}
 	
 	@Override
@@ -51,7 +57,7 @@ public class Set extends JPanel {
 			blocks[i].paintComponent(g2);
 		}
 
-		g.drawArc(Block.WITDTH_V + Block.WITDTH_TAG +x,HEIGHT_NAMES +y, Word.WITDTH_WORD*nWords, 10, 0, 0);
+		g.drawArc(Block.WITDTH_V + Block.WITDTH_TAG +x,HEIGHT_NAMES +y, widthWord*nWords, 10, 0, 0);
 		
 		
 		Font font = new Font("Serif", Font.PLAIN, 14);
@@ -60,18 +66,22 @@ public class Set extends JPanel {
 		g2.drawString("tag",Block.WITDTH_TAG/2 +10 +x, HEIGHT_NAMES-5+y);
 		
 		//CurlyBraces.paintComponent(g2, Block.WITDTH_V + Block.WITDTH_TAG + x, y+40-10, Word.WITDTH_WORD * nWords-15);
-		Bracket bracket1 = new Bracket(Block.WITDTH_V + Block.WITDTH_TAG + x, y+35, Word.WITDTH_WORD * nWords, false);
+		Bracket bracket1 = new Bracket(Block.WITDTH_V + Block.WITDTH_TAG + x, y+35, widthWord * nWords, false);
 		bracket1.paintComponent(g2);
-		g2.drawString("block", Block.WITDTH_V + Block.WITDTH_TAG + x+ (Word.WITDTH_WORD * nWords)/2-23+5, y+10);
+		g2.drawString("block", Block.WITDTH_V + Block.WITDTH_TAG + x+ (widthWord * nWords)/2-23+5, y+10);
 		//CurlyBraces.paintComponent(g2, 100, 100, 100);
 		//g2.drawLine(100, 100, 200, 100);
 		for(int i=0; i<nWords; i++)
 		{
-			g2.drawString("word" + i, Block.WITDTH_V + Block.WITDTH_TAG + Word.WITDTH_WORD*i +5+x , HEIGHT_NAMES-5+y);
+			if(nWords < 8)
+				g2.drawString("word" + i, Block.WITDTH_V + Block.WITDTH_TAG + widthWord*i +5+x , HEIGHT_NAMES-5+y);
+			else
+				g2.drawString("w" + i, Block.WITDTH_V + Block.WITDTH_TAG + widthWord*i +5+x , HEIGHT_NAMES-5+y);
+			
 		}
 		
 		
-		this.setBounds(x, y, (nWords*Word.WITDTH_WORD)+Block.WITDTH_M + Block.WITDTH_V+ Block.WITDTH_TAG, Word.HEIGHT_ROW*nBlocks+HEIGHT_NAMES);
+		this.setBounds(x, y, (nWords*widthWord)+Block.WITDTH_M + Block.WITDTH_V+ Block.WITDTH_TAG, Word.HEIGHT_ROW*nBlocks+HEIGHT_NAMES);
 
 	}
 	

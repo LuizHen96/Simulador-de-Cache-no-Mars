@@ -29,7 +29,7 @@ public class Cache extends JPanel{
 	private int dimensionX;
 	private int dimensionY;
 	private Bracket bracket;
-	
+	private int widthWord;
 	
 	static final int WIDTH_SPACING = 20;
 	static final int WITDH_INDEX = 30;
@@ -52,8 +52,14 @@ public class Cache extends JPanel{
 		this.x = x;
 		this.y = y;
 		
+		
+		if(nWords < 8)
+			widthWord = Word.WITDTH_WORD;
+		else
+			widthWord = Word.WITDTH_W;
+		
 		sets = new Set[nSets];
-		HEIGHT_SET = (Block.WITDTH_M + Block.WITDTH_V + Block.WITDTH_TAG +nWords*Word.WITDTH_WORD+WIDTH_SPACING);
+		HEIGHT_SET = (Block.WITDTH_M + Block.WITDTH_V + Block.WITDTH_TAG +nWords*widthWord+WIDTH_SPACING);
 		INDEX = 140 + this.nBlocks*3;
 		for(int i=0; i<nSets; i++)
 		{
@@ -115,11 +121,11 @@ public class Cache extends JPanel{
 		{
 			Font font = new Font("Serif", Font.PLAIN, 14);
 			g2.setFont(font);
-			g2.drawString("way"+i, WIDTH_SPACING + INDEX + (Block.WITDTH_V + Block.WITDTH_M + Block.WITDTH_TAG + Word.WITDTH_WORD*nWords)/2-10 + HEIGHT_SET*i , 20);
+			g2.drawString("way"+i, WIDTH_SPACING + INDEX + (Block.WITDTH_V + Block.WITDTH_M + Block.WITDTH_TAG + widthWord*nWords)/2-10 + HEIGHT_SET*i , 20);
 			
 			
 			bracket = new Bracket(Block.WITDTH_V + Block.WITDTH_TAG + INDEX + WITDH_INDEX + HEIGHT_SET*i, 
-						endBlockPointY + 5 , Word.WITDTH_WORD * nWords, true);
+						endBlockPointY + 5 , widthWord * nWords, true);
 			if(nWords > 1 || nSets > 1)
 			{
 				bracket.paintComponent(g2);
@@ -228,7 +234,7 @@ public class Cache extends JPanel{
 		{
 			if(nWords > 1)
 			{
-				Multiplexer mux2 = new Multiplexer(INDEX + WITDH_INDEX + Block.WITDTH_M + Block.WITDTH_V + Block.WITDTH_TAG +nWords*Word.WITDTH_WORD/2, endBlockPointY + LINE_TAG + 120, nWords, 1);
+				Multiplexer mux2 = new Multiplexer(INDEX + WITDH_INDEX + Block.WITDTH_M + Block.WITDTH_V + Block.WITDTH_TAG +nWords*widthWord/2, endBlockPointY + LINE_TAG + 120, nWords, 1);
 				mux2.paintComponent(g2);
 				g2.drawString("blockoffset", mux2.getxControler1() -70 , mux2.getyControler1() + 5);
 				Name.paintComponent(g2, "word", mux2.getxOutput(), mux2.getyOutput()-10, false);
