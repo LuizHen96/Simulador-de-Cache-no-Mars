@@ -19,7 +19,7 @@ public class Word extends JPanel{
 	
 	
 	static final int WITDTH_WORD = 45;
-	static final int HEIGHT_ROW = 20;
+	public static final int HEIGHT_ROW = 20;
 	
 	
 	public Word(int x, int y, int number)

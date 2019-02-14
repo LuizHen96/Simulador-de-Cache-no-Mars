@@ -1,8 +1,11 @@
-package mars.cache.swing.staticcache;
+package mars.cache.swing.staticcache.components;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
+
+import mars.cache.swing.staticcache.Block;
+import mars.cache.swing.staticcache.Word;
 
 public class Decoder extends JPanel {
 	

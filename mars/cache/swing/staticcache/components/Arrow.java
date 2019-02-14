@@ -1,4 +1,4 @@
-package mars.cache.swing.staticcache;
+package mars.cache.swing.staticcache.components;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;

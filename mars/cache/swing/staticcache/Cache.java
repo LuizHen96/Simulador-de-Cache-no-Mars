@@ -9,6 +9,16 @@ import java.awt.geom.CubicCurve2D;
 
 import javax.swing.JPanel;
 
+import mars.cache.swing.staticcache.components.And;
+import mars.cache.swing.staticcache.components.Arrow;
+import mars.cache.swing.staticcache.components.Bracket;
+import mars.cache.swing.staticcache.components.Comparator;
+import mars.cache.swing.staticcache.components.Decoder;
+import mars.cache.swing.staticcache.components.Line;
+import mars.cache.swing.staticcache.components.Multiplexer;
+import mars.cache.swing.staticcache.components.Name;
+import mars.cache.swing.staticcache.components.Or;
+
 public class Cache extends JPanel{
 	
 	private Set[] sets;

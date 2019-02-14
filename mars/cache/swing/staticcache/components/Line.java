@@ -1,4 +1,4 @@
-package mars.cache.swing.staticcache;
+package mars.cache.swing.staticcache.components;
 //package mars.cache.swing;
 
 import java.awt.BasicStroke;

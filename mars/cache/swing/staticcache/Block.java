@@ -17,7 +17,7 @@ public class Block extends JPanel {
 	private int x, y;
 	
 	
-	static final int HEIGHT_ROW = Word.HEIGHT_ROW;
+	public static final int HEIGHT_ROW = Word.HEIGHT_ROW;
 	static final int WITDTH_V = 20;
 	static final int WITDTH_M = 0;
 	static final int WITDTH_TAG = 50;
