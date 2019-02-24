@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import mars.cache.swing.dinamiccache.DinamicCache;
 import mars.cache.swing.staticcache.*;
 import mars.cache.swing.statistic.Statistic;
 
@@ -59,7 +61,9 @@ public class InterfaceCache extends JPanel {
 	private JLabel labelAddressIndex;
 	private JLabel labelAddressTag;
 	private StaticCache staticCache;
+	private DinamicCache dinamic;
 	private JScrollPane scrollPane;
+	private JScrollPane scrollPane2;
 	private JTable table_1;
 	private int widthTable = 346;
 	private int caseTable = 0; 
@@ -522,10 +526,23 @@ public class InterfaceCache extends JPanel {
 		scrollPane = new JScrollPane(staticCache, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(800, 600));
 		tabbedPane.addTab("Cache", null, scrollPane, null);
-								
-		
+			
 		statisticPanel = new Statistic();
+		
+		dinamic = new DinamicCache(controller, statisticPanel);
+		dinamic.setBorder(BorderFactory.createLineBorder(Color.black));
+		dinamic.setPreferredSize(new Dimension(800, 600));
+		scrollPane2 = new JScrollPane(dinamic, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane2.setPreferredSize(new Dimension(800, 600));
+		
+		tabbedPane.addTab("Dinamic",null,  scrollPane2, null);
+		
+		
+		
 		tabbedPane.addTab("Performace", null, statisticPanel, null);
+		
+		
+		
 		
 	
 	
@@ -848,11 +865,21 @@ public class InterfaceCache extends JPanel {
 		scrollPane.setPreferredSize(new Dimension(1, 1));
 		
 		statisticPanel.apply(controller.getnBlocos(), controller.getBlocosConjunto(), controller.getnPalavrasBloco(), Integer.parseInt(textTempoAcessoCache.getText()), Integer.parseInt(textTempoAcessoMemoria.getText()) );
-			
+		
+		dinamic = new DinamicCache(controller, statisticPanel);
+		scrollPane2 = new JScrollPane(dinamic, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		dinamic.setPreferredSize();
+		scrollPane2.setPreferredSize(new Dimension(1, 1));
 	}	
 	public void update(int address)
 	{
 		statisticPanel.update(address);
+
+		//dinamic = new DinamicCache(controller, statisticPanel);
+		
+		//scrollPane2 = new JScrollPane(dinamic, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		//dinamic.setPreferredSize();
+		//scrollPane2.setPreferredSize(new Dimension(1, 1));
 	}
 
 	public int getTipoCache() {

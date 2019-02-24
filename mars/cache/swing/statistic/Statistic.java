@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import mars.cache.statistic.Cache;
+import mars.cache.statistic.StatisticCache;
 import mars.cache.Address;
 
 public class Statistic extends JPanel {
@@ -19,7 +19,7 @@ public class Statistic extends JPanel {
 	private JTextField textMissCount;
 	private JTable table;
 	private JProgressBar progressBar;
-	private Cache cache;
+	private StatisticCache cache;
 	private int cacheAccessTime;
 	private int memoryAccessTime;
 	
@@ -39,7 +39,7 @@ public class Statistic extends JPanel {
 	
 	
 	public Statistic() {
-		cache = new Cache(1, 1, 1);
+		cache = new StatisticCache(1, 1, 1);
 		
 		nPalavrasBloco = 1;
 		
@@ -161,7 +161,7 @@ public class Statistic extends JPanel {
 		this.nPalavrasBloco = nPalavrasBloco;
 		
 		
-		cache = new Cache(nBlocos, associatividade, nPalavrasBloco);
+		cache = new StatisticCache(nBlocos, associatividade, nPalavrasBloco);
 		
 		int BlockOffsetLenght = (int) (Math.log(nPalavrasBloco)/Math.log(2));		
 		int IndexLenght = (int) (Math.log((nBlocos / associatividade))/Math.log(2));
@@ -303,6 +303,7 @@ public class Statistic extends JPanel {
 							"Address", "Byte offset","Block number",  "Tag", "Hit/Miss", "Block replaced"
 						}
 					));
+	
 				break;
 			case 1:
 				String[] line1 = {address + "", address1.byteOffset(address), address1.blockOffset(address),  address1.blockNumber(address, nPalavrasBloco), address1.tag(address), hitMiss, cache.getBlocoSubstituido()};
@@ -421,4 +422,9 @@ public class Statistic extends JPanel {
 		
 		
 	}
+
+	public StatisticCache getCache() {
+		return cache;
+	}
+	
 }

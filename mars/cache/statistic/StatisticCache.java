@@ -2,8 +2,8 @@ package mars.cache.statistic;
 
 //import testeSt.Set;
 
-public class Cache {
-	private Set[] set;
+public class StatisticCache {
+	private SetStatistic[] set;
 	private int nBlocos;
 	private int associatividade;
 	private int nPalavrasBloco;
@@ -13,7 +13,7 @@ public class Cache {
 	private int lastResult;
 
 
-	public Cache(int nBlocos, int associatividade, int nPalavrasBloco)
+	public StatisticCache(int nBlocos, int associatividade, int nPalavrasBloco)
 	{
 		this.nBlocos= nBlocos;
 		this.associatividade = associatividade;
@@ -21,10 +21,10 @@ public class Cache {
 		this.nConjuntos = nBlocos/associatividade;
 		
 		
-		set = new Set[nConjuntos];
+		set = new SetStatistic[nConjuntos];
 		for(int i=0; i<(nConjuntos); i++)
 		{
-			set[i] = new Set(associatividade);
+			set[i] = new SetStatistic(associatividade);
 		}
 		
 		
@@ -177,4 +177,26 @@ public class Cache {
 			return blocoSubstituido + "";
 		return "";
 	}
+
+	public SetStatistic[] getSet() {
+		return set;
+	}
+
+	public int getnBlocos() {
+		return nBlocos;
+	}
+
+	public int getAssociatividade() {
+		return associatividade;
+	}
+
+	public int getnPalavrasBloco() {
+		return nPalavrasBloco;
+	}
+
+	public int getnConjuntos() {
+		return nConjuntos;
+	}
+	
+	
 }

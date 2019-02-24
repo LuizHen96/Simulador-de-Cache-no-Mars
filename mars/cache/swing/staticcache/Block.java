@@ -64,9 +64,7 @@ public class Block extends JPanel {
 		
 		Font font = new Font("Serif", Font.PLAIN, 14);
 		g2.setFont(font);
-		//g2.drawString("V", x+4, y+HEIGHT_ROW-4);
-		//g2.drawString("M", x+4+WITDTH_V, y+HEIGHT_ROW-4);
-		//g2.drawString("TAG", x+4+WITDTH_V+WITDTH_M, y+HEIGHT_ROW-4);
+
 		
 		
 

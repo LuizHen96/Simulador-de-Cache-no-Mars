@@ -1,15 +1,22 @@
 package mars.cache.statistic;
 
-public class Block {
+public class BlockStatistic {
 
 	private boolean bit_validade;
 	private int ordem_acesso;
 	private int tag;
 	
 	
-	public Block()
+	public BlockStatistic()
 	{
 		this.bit_validade = false;
+	}
+	public int getValidate()
+	{
+		if(bit_validade)
+			return 1;
+		else
+			return 0;
 	}
 
 
